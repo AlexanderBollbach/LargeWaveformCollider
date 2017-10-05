@@ -1,0 +1,12 @@
+
+
+.Main {
+	composes: Main from '../SectionBackgroundColor.css';
+	composes: Section from '../Section.css';
+
+	display: grid;
+	grid-template-rows: 1fr 2fr;
+
+	padding: 10px;
+	
+}

@@ -1,0 +1,5 @@
+.Column {
+	display: grid;
+	grid-gap: 1%;
+	height: 80vh;
+}

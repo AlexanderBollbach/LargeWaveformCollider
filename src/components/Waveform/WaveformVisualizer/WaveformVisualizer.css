@@ -1,0 +1,13 @@
+.Waveform {
+	background-color: white;	
+}
+
+.Container {
+	height: 95%;
+	display: grid;
+	grid-template-rows: 1fr 2fr;
+}
+
+
+
+

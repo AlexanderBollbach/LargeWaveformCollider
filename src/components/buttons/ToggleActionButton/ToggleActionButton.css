@@ -1,0 +1,23 @@
+.toggleButton {
+	text-align: center;
+	composes: Section from '../../../style/Global.css';
+	color: white;
+	white-space: normal;
+	word-wrap: break-word;
+}
+
+.toggleButtonActive {
+	composes: toggleButton;
+	animation: pulse 1s infinite;
+}
+@keyframes pulse {
+	0% {
+		background-color: #ff0000;
+	}
+	50% {
+		background-color: #770000;
+	}
+	100% {
+		background-color: #ff0000	;
+	}
+}
