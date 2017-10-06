@@ -2,7 +2,7 @@ import {store} from 'reduxAlias/Store'
 import {
 	processedSamples,
 	
-} from "reduxAlias/reducers/WaveformProcessor";
+} from "reduxAlias/reducers/WaveformReducer";
 
 export default class AudioEngine {
 

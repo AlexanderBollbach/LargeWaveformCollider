@@ -4,14 +4,14 @@ import { bindActionCreators } from "redux";
 import MomentaryButton from "../buttons/MomentaryButton/MomentaryButton";
 import styles from './TransportControls.css'
 
-import { playPause,newWaveform } from "reduxAlias/actions";
+import { newWaveform } from "reduxAlias/reducers/WaveformsReducer";
 
 
 const TransportControls = props => {
 	return (
 		<div className={styles.Main}>
 		<MomentaryButton
-			clickHandler={props.playPause}
+			clickHandler={3/* play pause  action*/}
 			title={props.isPlaying ? "pause" : "play"}
 		/>
 		<MomentaryButton
@@ -28,5 +28,5 @@ export default connect(
 	state => ({
 		isPlaying: state.transportControls.isPlaying
 	}),
-	dispatch => bindActionCreators({ playPause, newWaveform }, dispatch)
+	dispatch => bindActionCreators({ newWaveform }, dispatch)
 )(TransportControls);

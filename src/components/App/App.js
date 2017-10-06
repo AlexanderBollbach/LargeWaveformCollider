@@ -12,9 +12,8 @@ import TransportControls from "../TransportControls/TransportControls";
 import Section from "../layout/sections/Section";
 import WaveformSection from "../layout/sections/waveform-section/WaveformSection";
 import AudioEngine from "../../AudioEngine/AudioEngine";
-import Waveform from '../Waveform/Waveform'
 
-
+import Waveforms from '../WaveformComponents/Waveforms/Waveforms'
 
 let ae = new AudioEngine();
 
@@ -25,14 +24,12 @@ const App = (props) => {
 				<TransportControls />
 			</Section>
 			<WaveformSection>
-				{props.waveforms.map((waveform,idx) => {
-					return <Waveform id={idx} key={idx} />
-				})}
+				<Waveforms />
 			</WaveformSection>
 		</div>
 	);
 };
 
-const mapStateToProps = state => ({waveforms: state.waveforms })
-export default connect(mapStateToProps)(App)
+
+export default App
 

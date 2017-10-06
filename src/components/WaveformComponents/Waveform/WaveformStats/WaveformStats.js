@@ -9,7 +9,7 @@ import {
 	endingSample,
 	offsetInSamples,
 	selectedSampleOffset
-} from "reduxAlias/reducers/WaveformProcessor";
+} from "reduxAlias/reducers/WaveformReducer";
 import {constructStats} from './WaveformStatsHelpers'
 
 const Stat = ({ name, value }) => {
@@ -40,7 +40,7 @@ function roundThousandth(num) {
 
 const mapStateToProps = (state, ownProps) => {
 
-	const thisWaveform = state.waveforms[ownProps.id]
+	const thisWaveform = state.waveforms.byId[ownProps.id]
 
 	return {
 		selectedSample: thisWaveform.selectedSample,

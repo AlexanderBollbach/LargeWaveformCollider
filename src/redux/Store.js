@@ -6,29 +6,19 @@ import {
 } from "./helpers/ImmutableHelpers";
 
 import mainBuffer from "./reducers/MainBuffer";
-import waveformReducer from "./reducers/WaveformProcessor";
-import transportControls from "./reducers/TransportControls";
 
 
-function waveforms(state = [], action) {
-	switch (action.type) {
-		case "NEW_WAVEFORM":
-			return [...state, waveformReducer(null, action)];
-	}
-	return updateItemInArray(state, action.id, (waveform) => {
-		return waveformReducer(state[action.id], action)
-	})	
-}
+import transportControlsReducer from "./reducers/TransportControls";
 
+import waveformsReducer from './reducers/WaveformsReducer'
 
 const rootReducer = combineReducers({
-	mainBuffer,
-	waveforms,
-	transportControls
+	transportControls: transportControlsReducer,
+	waveforms: waveformsReducer,
 });
 
 const store = createStore(
 	rootReducer,
 	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+	);
 export { store };

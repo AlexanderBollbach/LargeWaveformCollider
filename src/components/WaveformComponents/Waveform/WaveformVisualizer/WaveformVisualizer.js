@@ -3,8 +3,8 @@ import styles from "./WaveformVisualizer.css";
 import WaveformDrawer from "./rendering/WaveformRenderer";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setZoom, setFocus, setOffset } from "reduxAlias/actions";
-import { processedSamples } from "reduxAlias/reducers/WaveformProcessor";
+import { setZoom, setFocus, setOffset } from "reduxAlias/reducers/WaveformReducer";
+import { processedSamples } from "reduxAlias/reducers/WaveformReducer";
 import {
 	getMouseXYForElement
 } from "./helpers/MouseControlsHelpers";
@@ -29,7 +29,7 @@ class WaveformVisualizer extends React.Component {
 			this.previousX = x;
 			this.previousY = y;
 
-			this.props.setFocus(x / width);
+			this.props.setFocus(this.props.id, x / width);
 		};
 		window.onmousemove = e => {
 			e.preventDefault();
@@ -45,8 +45,8 @@ class WaveformVisualizer extends React.Component {
 			const diffX = this.previousX - x;
 			const diffY = (this.previousY - y) * 0.01;
 
-			this.props.setZoom(diffY);
-			this.props.setOffset(diffX / width);
+			this.props.setZoom(this.props.id, diffY);
+			this.props.setOffset(this.props.id, diffX / width);
 
 			this.previousX = x;
 			this.previousY = y;
@@ -71,7 +71,7 @@ class WaveformVisualizer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		getSamples: processedSamples(state.waveforms[ownProps.id])
+		getSamples: processedSamples(state.waveforms.byId[ownProps.id])
 	}
 }
 
