@@ -1,0 +1,5 @@
+.Main {
+	display: grid;
+	grid-template-rows: 2fr 1fr 5fr;	
+	grid-gap: 8px;
+}

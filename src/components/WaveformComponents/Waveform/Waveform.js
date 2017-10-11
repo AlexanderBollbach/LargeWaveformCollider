@@ -1,23 +1,25 @@
 import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { setZoom } from 'reduxAlias/reducers/WaveformReducer'
-import Stats from './WaveformStats/WaveformStats'
-import Visualizer from './WaveformVisualizer/WaveformVisualizer'
+import Visualizer from "./Visualizer/Visualizer";
+import Styles from "./Waveform.css";
+import ModeSelector from './ModeSelector/ModeSelector'
+import Modes from './Modes/Modes'
+import { connect } from 'react-redux'
 
-const Waveform = props => {
-
-	const style={
-		display:"grid",
-		gridTemplateRows:"1fr 1fr"
-	}
-	
+const Waveform = ({ id, selectWaveform, activeMode }) => {
 	return (
-		<div style={style}>
-			<Stats id={props.id} />
-			<Visualizer id={props.id} />
+		<div className={Styles.Main}>
+			
+			<Visualizer id={id} />
+			<ModeSelector id={id} />
+			<Modes modeName={activeMode} />
 		</div>
 	);
 };
 
-export default Waveform 
+const mapStateToProps = (state, ownProps) => {
+	return {
+		activeMode: state.waveforms.byId[ownProps.id].activeMode
+	}
+}
+
+export default connect(mapStateToProps)(Waveform)

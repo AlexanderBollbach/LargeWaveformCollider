@@ -2,6 +2,8 @@ import React from 'react'
 import Waveform from '../Waveform/Waveform'
 import Styles from './Waveforms.css'
 import { connect } from 'react-redux'
+import AddWaveform from '../AddWaveform/AddWaveform'
+
 
 const mapStateToProps = state => ({
   waveforms: state.waveforms.allIds
@@ -10,8 +12,11 @@ const mapStateToProps = state => ({
 
 const Waveforms = (props) => {
 	return(
-		<div className={Styles.Main}>
-		{props.waveforms.map(id => (<Waveform id={id} />))}
+		<div 
+		className={Styles.Main}>
+		{
+			props.waveforms.map(id => (<Waveform id={id} key={id} />))
+		}
 		</div>
 		)	
 }

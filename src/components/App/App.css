@@ -1,8 +1,10 @@
 .Main {
   display: grid;
-  grid-template-rows: 8% 92%;
+  grid-template-rows: 100px auto;
+  align-items: center;
   grid-gap: 10px;
   margin-top: 2%;
+  margin-bottom: 3%;
   width: 60%;
 }
 
@@ -14,10 +16,12 @@
 :global(#root) {
 	width: 100%;
 	margin: 0;
+   box-sizing: border-box;
 	height: 100vh;
-  	background-color: #882244;
-  	display: flex;
-  	align-items: flex-start;
-  	justify-content: center;
-  	
+ background-color: black;
+ display: flex;
+ overflow: scroll;
+ align-items: flex-start;
+ justify-content: center;
+
 }

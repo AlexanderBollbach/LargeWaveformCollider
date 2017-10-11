@@ -1,14 +1,14 @@
-import {store} from 'reduxAlias/Store'
+import {store} from '_redux/Store'
 import {
-	processedSamples,
+	selectBuffers,
 	
-} from "reduxAlias/reducers/WaveformReducer";
+} from "_redux/reducers/WaveformsReducer";
 
 export default class AudioEngine {
 
-
-
 	constructor() {
+
+		this.volume = 0.1
 
 		this.outputConnected = false
 
@@ -19,56 +19,43 @@ export default class AudioEngine {
 
 		this.scriptNode = context.createScriptProcessor(2048, 1, 1);
 
+		this.sampleStores = []
 
 		let sub = store.subscribe(() => {
-			store.getState().transportControls.isPlaying ? this.play() : this.pause()
+		
+			this.sampleStores = []
+			
+			const buffers = selectBuffers(store.getState().waveforms)
 
+			buffers.forEach(buffer => {
+				this.sampleStores.push({counter:0, buffer:buffer})
+			})	
 		})
 
 
-		var sampleIndexPhase = 1
-
-		this.scriptNode.onaudioprocess = function(audioProcessingEvent) {
-
-			const data = store.getState().waveformProcessor
-
-			const samples = processedSamples(data)
-			
-
-			var outputBuffer = audioProcessingEvent.outputBuffer;
-
-			// Loop through the output channels (in this case there is only one)
-			for (
-				var channel = 0;
-				channel < outputBuffer.numberOfChannels;
-				channel++
-			) {
-
+		this.scriptNode.onaudioprocess = (e) => {
+			var outputBuffer = e.outputBuffer;
+			for (var channel = 0; channel < outputBuffer.numberOfChannels; channel++) {
 				var outputData = outputBuffer.getChannelData(channel);
-
-
 				for (var sample = 0; sample < outputBuffer.length; sample++) {
 
+					var amp = 0
+
+					this.sampleStores.forEach(store => {
+						store.counter++
+						if (store.counter > store.buffer.length - 1) {
+							store.counter = 0
+						}
+						amp += store.buffer[store.counter]
+					})
+
+					amp /= this.sampleStores.length
 					
-					outputData[sample] = samples[sampleIndexPhase] * 0.2;
-
-
-
-					if (sampleIndexPhase > samples.length) {
-						sampleIndexPhase = 0
-
-					}
-
-					sampleIndexPhase++
-
-
-					
-
-
-
+					outputData[sample] = amp * this.volume
 				}
 			}
 		};
+
 	}
 
 	play() {

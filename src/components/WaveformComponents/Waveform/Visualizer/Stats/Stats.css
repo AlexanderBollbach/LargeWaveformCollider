@@ -1,0 +1,16 @@
+.Main {
+	display: grid;
+	grid-template-columns: repeat(3, auto);
+	grid-gap: 5px;
+}
+
+
+
+.Stat {
+
+	text-align: center;
+	font-size: 100%;
+	color: white;
+	display: grid;
+	grid-template-rows: 1fr 1fr;
+}
