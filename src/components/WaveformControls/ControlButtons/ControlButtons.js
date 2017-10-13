@@ -9,7 +9,7 @@ import { bindActionCreators } from "redux";
 
 // actions
 
-import { playPause, newBuffer } from "_redux/actions/Waveform";
+import { playPause, newBuffer } from "_redux/waveforms/Actions";
 
 const Controls = ({ /*actions*/ playPause, /*state*/ newBuffer }) => {
 	return (

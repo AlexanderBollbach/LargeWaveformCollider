@@ -3,7 +3,7 @@ import Styles from "./ModeSelector.css";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setMode } from "_redux/actions/Waveform";
+import { setMode } from "_redux/waveforms/Actions";
 
 const Mode = ({ name, handleClick, setMode, active }) => {
 	return (
@@ -13,7 +13,7 @@ const Mode = ({ name, handleClick, setMode, active }) => {
 	);
 };
 
-const ModeSelector = ({ modes, id, setMode, activeMode }) => {
+const ModeSelector = ({ modes, waveformId, setMode, activeMode }) => {
 	return (
 		<div className={Styles.Main}>
 			{modes.map(mode => (
@@ -21,23 +21,18 @@ const ModeSelector = ({ modes, id, setMode, activeMode }) => {
 					active={mode == activeMode}
 					key={mode}
 					name={mode}
-					handleClick={mode => setMode(id, mode)}
+					handleClick={mode => setMode(waveformId, mode)}
 				/>
 			))}
 		</div>
 	);
 };
 
-const mapStateToProps = (state, ownProps) => {
-	var waveform = state.waveforms.byId[ownProps.id];
-	return {
-		modes: waveform.modes,
-		activeMode: waveform.activeMode,
-	};
-};
+const mapStateToProps = (state, ownProps) => ({
+		modes: state.waveforms[ownProps.waveformId].modes,
+		activeMode: state.waveforms[ownProps.waveformId].activeMode,
+	})
 
-const mapDispatchToProps = dispatch => {
-	return bindActionCreators({ setMode }, dispatch);
-};
+const mapDispatchToProps = dispatch => bindActionCreators({ setMode }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModeSelector);

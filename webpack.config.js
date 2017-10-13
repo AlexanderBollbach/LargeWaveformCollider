@@ -39,11 +39,9 @@ module.exports = {
     alias: {
       Components: path.resolve(__dirname, 'src/components/'),
       _redux: path.resolve(__dirname, 'src/redux/'),
-      srcAlias: path.resolve(__dirname, 'src'),
+      aaa: path.resolve(__dirname, 'src/'),
       style: path.resolve(__dirname, 'src/style'),
       helpers: path.resolve(__dirname, 'src/helpers')
-
-
     }
   }
 };

@@ -3,12 +3,8 @@ import Styles from "./Visualizer.css";
 import WaveformDrawer from "./rendering/WaveformRenderer";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-	setZoom,
-	setFocus,
-	setOffset
-} from "_redux/actions/Waveform";
-import { processedSamples } from "_redux/reducers/Waveform";
+import { setZoom, setFocus, setOffset } from "_redux/waveforms/Actions";
+import { processedSamples } from "_redux/waveforms/Actions";
 import { getMouseXYForElement } from "helpers/MouseControl";
 
 import Stats from "./Stats/Stats";
@@ -63,16 +59,13 @@ class WaveformVisualizer extends React.Component {
 	// <Stats id={this.props.id} />
 	render() {
 		return (
-			<div className={Styles.Main}>
-			
-				<WaveformDrawer
-					mouseMoveHandler={this.onMouseMove}
-					mouseDownHandler={e => {
-						this.onMouseDown(e);
-					}}
-					mouseUpHandler={this.onMouseUp}
-					samplesToDraw={this.props.getSamples}
-				/>
+			<div
+				onMouseDown={this.onMouseDown}
+				onMouseMove={this.onMouseMove}
+				onMouseUp={this.onMouseUp}
+				className={Styles.Main}
+			>
+				<WaveformDrawer samplesToDraw={this.props.getSamples} />
 			</div>
 		);
 	}

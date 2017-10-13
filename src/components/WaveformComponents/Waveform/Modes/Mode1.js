@@ -5,22 +5,22 @@ import Styles from './Mode1.css'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { newBuffer } from '_redux/actions/Waveform'
+import { updateDSPRulesWaveType } from '_redux/waveforms/Actions'
 
 
-const Mode1 = ({waveformId, newBuffer}) => {
+const Mode1 = ({waveformId, updateDSPRulesWaveType}) => {
 	return (
 		<div className={Styles.Main}>
-		<MomentaryButton title={"square - small"} clickHandler={ () => newBuffer(waveformId, "squareSmall") } />
-		<MomentaryButton title={"sin - small"} clickHandler={ () => newBuffer(waveformId, "sinSmall") } />
-		<MomentaryButton title={"sin - medium"} clickHandler={ () => newBuffer(waveformId, "sinMedium") } />
-		<MomentaryButton title={"sin - large"} clickHandler={ () => newBuffer(waveformId, "sinLarge") } />
+		<MomentaryButton title={"sin"} clickHandler={ () => updateDSPRulesWaveType(waveformId, "sin") } />
+		<MomentaryButton title={"square"} clickHandler={ () => updateDSPRulesWaveType(waveformId, "square") } />
+		<MomentaryButton title={"try"} clickHandler={ () => updateDSPRulesWaveType(waveformId, "tri") } />
+		<MomentaryButton title={"saw"} clickHandler={ () => updateDSPRulesWaveType(waveformId, "saw") } />
 		</div>
 		)
 }
 
 const mapDispatchToProps = dispatch => {
-	return bindActionCreators({newBuffer}, dispatch)
+	return bindActionCreators({updateDSPRulesWaveType}, dispatch)
 }
 
 export default connect(null, mapDispatchToProps)(Mode1)

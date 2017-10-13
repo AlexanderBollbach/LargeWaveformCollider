@@ -5,10 +5,12 @@ import {
 	updateMultipleItemsInArray
 } from "./helpers/ImmutableHelpers";
 
+import initialState from './InitialState'
+console.log(initialState)
 
-import { processedSamples } from './reducers/Waveform'
-import waveformsReducer from './reducers/Waveforms'
-import audioEngineReducer from './reducers/AudioEngine'
+
+import waveformsReducer from './waveforms/Reducer'
+import audioEngineReducer from './audioEngine/Reducer'
 
 const INITIAL_STATE = {
 	

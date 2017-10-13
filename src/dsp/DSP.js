@@ -1,105 +1,122 @@
-
-var phase = 0;
-
-
-
-
 class DSP {
+	constructor(dspRules) {
+		this.phase = 0;
+		this.length = dspRules.length;
+		this.waveType = dspRules.waveType;
+		this.skipStride = dspRules.skipStride;
+		this.skipPhase = dspRules.skipPhase;
+	}
 
+	generate() {
+		var samples;
 
-	square(length) {
-
-		var buffer = []
-
-		const waveLength = length / 50
-
-		var waveLengthTracker = 0
-		var upDown = false
-
-		for (let i = 0; i < length; i++) {
-
-			if (waveLengthTracker > waveLength) {
-				waveLengthTracker = 0
-			}
-
-			upDown = !upDown
-
-			buffer[i] = upDown ? 1: 0
-
-			waveLengthTracker++
+		switch (this.waveType) {
+			case "sin":
+				samples = this.genSin(this.length);
+				break;
+			case "square":
+				samples = this.genSquare(this.length);
+				break;
+			case "tri":
+				samples = this.genTri(this.length);
+				break;
+			case "saw":
+				samples = this.genSaw(this.length);
+				break;
 		}
 
-		return buffer
+		var stride = 0;
+		var strideOn = false;
 
+		for (let i = this.skipPhase; i < samples.length; i++) {
+			if (stride > this.skipStride) {
+				strideOn = !strideOn;
+				stride = 0;
+			}
+
+			stride++;
+
+			// zeros for negative indexing
+			if (i < 0) {
+				samples[i] = 0;
+				return;
+			}
+
+			samples[i] = strideOn ? samples[i] : 0;
+		}
+
+		return samples;
 	}
-	generateWaveform1(length) {
 
-		var newBuffer = []
+	genSin(length) {
+		var newBuffer = [];
 		const phaseIncrement = 2 * Math.PI * 0.01;
 
 		for (var i = 0; i < length; i++) {
-			phase += phaseIncrement;
+			this.phase += phaseIncrement;
 
-			newBuffer[i] = Math.sin(phase);
+			newBuffer[i] = Math.sin(this.phase);
 
-			if (phase >= 2 * Math.PI) {
-				phase = phase - 2 * Math.PI;
+			if (this.phase >= 2 * Math.PI) {
+				this.phase = this.phase - 2 * Math.PI;
 			}
 		}
 		return newBuffer;
 	}
+	genSquare(length) {
+		var buffer = [];
 
+		const waveLength = length / 50;
 
-	generateWaveform2(length) {
+		var waveLengthTracker = 0;
+		var upDown = false;
 
-		var newBuffer = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
-		return newBuffer
+		for (let i = 0; i < length; i++) {
+			if (waveLengthTracker > waveLength) {
+				waveLengthTracker = 0;
+			}
+
+			upDown = !upDown;
+
+			buffer[i] = upDown ? 1 : 0;
+
+			waveLengthTracker++;
+		}
+
+		return buffer;
 	}
-	generateWaveform3(length) {
 
-		var newBuffer = [0,1,0,0,0]
-		return newBuffer
-	}
+	genTri(length) {
+		var newBuffer = [];
 
-	generateWaveform4(length) {
+		var amp = 0;
 
-		var newBuffer = []
-		const phaseIncrement = 2 * Math.PI * 0.0001;
+		var upDown = false;
 
 		for (var i = 0; i < length; i++) {
-			phase += phaseIncrement;
+			amp += upDown ? 0.01 : -0.01;
 
-			newBuffer[i] = Math.sin(phase);
-
-			if (phase >= 2 * Math.PI) {
-				phase = phase - 2 * Math.PI;
-			}
+			newBuffer[i] = amp;
 		}
 		return newBuffer;
 	}
 
+	genSaw(length) {
+		var newBuffer = [];
 
-	generateWaveform5(length) {
-
-		var newBuffer = []
-		const phaseIncrement = 2 * Math.PI * 0.1;
+		var amp = 1;
 
 		for (var i = 0; i < length; i++) {
-			phase += phaseIncrement;
+			amp -= 0.1;
 
-			newBuffer[i] = Math.sin(phase);
+			newBuffer[i] = amp;
 
-			if (phase >= 2 * Math.PI) {
-				phase = phase - 2 * Math.PI;
+			if (amp <= 0) {
+				amp = 1;
 			}
 		}
 		return newBuffer;
 	}
-
-
-
-
 }
 
-
-export default DSP
+export default DSP;

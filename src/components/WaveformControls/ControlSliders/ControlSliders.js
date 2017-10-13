@@ -5,7 +5,7 @@ import Slider from "Components/controls/sliders/Slider";
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { setVolume } from '_redux/actions/Waveform'
+import { setVolume } from '_redux/waveforms/Actions'
 
 
 const ControlSliders = ({setVolume}) => {

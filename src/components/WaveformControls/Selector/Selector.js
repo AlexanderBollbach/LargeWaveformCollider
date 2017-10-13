@@ -2,7 +2,7 @@ import React from "react";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { playPause } from '_redux/actions/AudioEngine'
+import { playPause } from '_redux/audioEngine/actions'
 import MomentaryButton from "Components/controls/buttons/MomentaryButton/MomentaryButton";
 
 import Styles from "./Selector.css";

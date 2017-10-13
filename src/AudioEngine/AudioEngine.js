@@ -1,7 +1,4 @@
 import {store} from '_redux/Store'
-import {
-	processedSamples,
-} from "_redux/reducers/Waveform";
 
 export default class AudioEngine {
 
@@ -26,15 +23,17 @@ export default class AudioEngine {
 			
 			
 
-			const waveformsById = store.getState().waveforms.byId 
-			const waveformsIds = store.getState().waveforms.allIds
+			const waveformsById = store.getState().waveforms 
+	
+
+	//TODO			
 
 
-			waveformsIds.forEach(waveformId => {
-				this.sampleStores.push({counter:0, buffer:processedSamples(waveformsById[waveformId]), volume: waveformsById[waveformId].volume})
-			})	
+			// waveformsIds.forEach(waveformId => {
+			// 	this.sampleStores.push({counter:0, buffer:processedSamples(waveformsById[waveformId]), volume: waveformsById[waveformId].volume})
+			// })	
 
-			store.getState().audioEngine.isPlaying ? this.play() : this.pause()
+			// store.getState().audioEngine.isPlaying ? this.play() : this.pause()
 		})
 
 

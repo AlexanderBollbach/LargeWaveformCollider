@@ -27,15 +27,7 @@ export default class WaveformDrawer extends React.Component {
 			className={Styles.WaveformCanvas}
 				width={0}
 				height={0}
-				onMouseDown={(e) => {
-					this.props.mouseDownHandler(e)
-				}}
-				onMouseMove={ e => { 
-					this.props.mouseMoveHandler(e) 
-				}}
-				onMouseUp={e => {
-					this.props.mouseUpHandler(e)
-				}}
+				
 				ref={ref => {
 					this.canvasRef = ref
 					if (ref) {
