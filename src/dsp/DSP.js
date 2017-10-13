@@ -7,7 +7,31 @@ var phase = 0;
 class DSP {
 
 
+	square(length) {
 
+		var buffer = []
+
+		const waveLength = length / 50
+
+		var waveLengthTracker = 0
+		var upDown = false
+
+		for (let i = 0; i < length; i++) {
+
+			if (waveLengthTracker > waveLength) {
+				waveLengthTracker = 0
+			}
+
+			upDown = !upDown
+
+			buffer[i] = upDown ? 1: 0
+
+			waveLengthTracker++
+		}
+
+		return buffer
+
+	}
 	generateWaveform1(length) {
 
 		var newBuffer = []

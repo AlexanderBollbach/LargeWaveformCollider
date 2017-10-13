@@ -11,15 +11,13 @@ const Waveform = ({ id, selectWaveform, activeMode }) => {
 			
 			<Visualizer id={id} />
 			<ModeSelector id={id} />
-			<Modes modeName={activeMode} />
+			<Modes waveformId={id} modeId={activeMode} />
 		</div>
 	);
 };
 
-const mapStateToProps = (state, ownProps) => {
-	return {
+const mapStateToProps = (state, ownProps) => ({
 		activeMode: state.waveforms.byId[ownProps.id].activeMode
-	}
-}
+	})
 
 export default connect(mapStateToProps)(Waveform)

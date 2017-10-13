@@ -1,14 +1,13 @@
 import {store} from '_redux/Store'
 import {
-	selectBuffers,
-	
-} from "_redux/reducers/WaveformsReducer";
+	processedSamples,
+} from "_redux/reducers/Waveform";
 
 export default class AudioEngine {
 
 	constructor() {
 
-		this.volume = 0.1
+		this.volume = 0.5
 
 		this.outputConnected = false
 
@@ -25,11 +24,17 @@ export default class AudioEngine {
 		
 			this.sampleStores = []
 			
-			const buffers = selectBuffers(store.getState().waveforms)
+			
 
-			buffers.forEach(buffer => {
-				this.sampleStores.push({counter:0, buffer:buffer})
+			const waveformsById = store.getState().waveforms.byId 
+			const waveformsIds = store.getState().waveforms.allIds
+
+
+			waveformsIds.forEach(waveformId => {
+				this.sampleStores.push({counter:0, buffer:processedSamples(waveformsById[waveformId]), volume: waveformsById[waveformId].volume})
 			})	
+
+			store.getState().audioEngine.isPlaying ? this.play() : this.pause()
 		})
 
 
@@ -42,11 +47,15 @@ export default class AudioEngine {
 					var amp = 0
 
 					this.sampleStores.forEach(store => {
+						
 						store.counter++
+
 						if (store.counter > store.buffer.length - 1) {
 							store.counter = 0
+							return;
 						}
-						amp += store.buffer[store.counter]
+
+						amp += store.buffer[store.counter] * store.volume;
 					})
 
 					amp /= this.sampleStores.length
@@ -60,12 +69,14 @@ export default class AudioEngine {
 
 	play() {
 		if (!this.outputConnected)  {
+			console.log("starting audio engine")
 			this.scriptNode.connect(this.destination);
 			this.outputConnected = true	
 		}
 	}
 	pause() {
 		if (this.outputConnected) {
+			console.log("pausing audio engine")
 			this.scriptNode.disconnect(this.destination)
 			this.outputConnected = false
 		}

@@ -29,6 +29,8 @@ class Slider extends React.Component {
 						var x = getRelativeMouseXY(e).x;
 						this.value = x
 						this.renderCanvas()
+
+						this.props.valueChanged(x)
 					}}
 					onMouseUp={e => {
 						this.isDragging = false

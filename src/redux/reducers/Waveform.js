@@ -9,7 +9,7 @@ export const INITIAL_STATE = {
     focus: 0,
     inputSamples: [],
     showMoreStats: false,
-    volume: false,
+    volume: 0.0,
 
     modes: ["a","b","c"],
     activeMode: "a"
@@ -20,10 +20,10 @@ export const INITIAL_STATE = {
 
 export default function waveformReducer(state = INITIAL_STATE, action) {
 
-    var localizedAction = { ...action, type: action.type.replace("waveform/","") }
+    
     
     switch (localizedAction.type) {
-        case "SET_FOCUS":
+        case "waveform/SET_FOCUS":
             const selectSampleOffsetOriginal =
                 state.focus * samplesOnScreen(state);
             const selectSampleOffsetNew = action.focus * samplesOnScreen(state);
@@ -38,26 +38,35 @@ export default function waveformReducer(state = INITIAL_STATE, action) {
                 selectedSample: newSelectedSample,
                 focus: action.focus
             };
-        case "SET_ZOOM":
+        case "waveform/SET_ZOOM":
             var newZoom = state.zoom + (action.zoom * 1);
             if (newZoom < 1) {
                 newZoom = 1;
             }
             return { ...state, zoom: newZoom };
-        case "SET_OFFSET":
+        case "waveform/SET_OFFSET":
             const newOffset = state.offset + (-action.offset * samplesOnScreen(state));
             return { ...state, offset: newOffset }; 
-        case "NEW_BUFFER":
+        case "waveform/NEW_BUFFER":
             return {
-                ...INITIAL_STATE,
+                ...state,
+                zoom: 1,
+                selectedSample: 0,
+                offset: 0,
+                focus: 0,
                 inputSamples: samplesReducer(state.inputSamples, localizedAction)
             }
-        case "SET_MODE":
+        case "waveform/SET_MODE":
             return {
                 ...state,
                 activeMode: action.mode
             }
-        case "TOGGLE_MORE_STATS":
+        case "waveform/SET_VOLUME":
+            rewaveform/turn {
+                ...state,
+                volume: action.volume
+            }
+        case "waveform/TOGGLE_MORE_STATS":
             return {
                 ...state,
                 showMoreStats: !state.showMoreStats

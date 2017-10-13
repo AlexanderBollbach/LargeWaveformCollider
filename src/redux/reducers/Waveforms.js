@@ -7,10 +7,10 @@ const INITIAL_WAVEFORMS_STATE = { allIds: [0,1,2,3], byId: {0:INITIAL_WAVEFORM_S
 function waveformsReducer(state = INITIAL_WAVEFORMS_STATE, action) {
 	
 	if (action.type.startsWith("waveform/")) {
-		const waveform = state.byId[action.id];
+		const waveform = state.byId[action.waveformId];
 		const newByIds = {
 			...state.byId,
-			[action.id]: waveformReducer(waveform, action)
+			[action.waveformId]: waveformReducer(waveform, action)
 		};
 		return Object.assign({}, state, { byId: newByIds });
 	}
@@ -28,16 +28,10 @@ function waveformsReducer(state = INITIAL_WAVEFORMS_STATE, action) {
 }
 
 
-
 // selectors
 
-
-
 export function selectBuffers(waveforms) {
-
-	return waveforms.allIds.map(id => {
-		return processedSamples(waveforms.byId[id])
-	})
+	return waveforms.allIds.map(id => processedSamples(waveforms.byId[id]))
 }
 
 export default waveformsReducer;

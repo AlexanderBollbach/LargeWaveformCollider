@@ -2,38 +2,24 @@ import React from "react";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
+import { playPause } from '_redux/actions/AudioEngine'
 import MomentaryButton from "Components/controls/buttons/MomentaryButton/MomentaryButton";
 
+import Styles from "./Selector.css";
 
-import Styles from './Selector.css'
-
-const Selector = ({ waveformsIds, selectedWaveformId, selectWaveform }) => {
+const Selector = ({ playPause }) => {
 	return (
 		<div className={Styles.Main}>
-			{waveformsIds.map(waveformId => {
-				
-				return <MomentaryButton
-					key={waveformId}
-					isSelected={waveformId == selectedWaveformId}
-					title={`${waveformId}`}
-					clickHandler={ () => { 
-						console.log(waveformId)
-						selectWaveform(waveformId)
-					 } }
-				/>;
-			})}
+			<MomentaryButton
+				title={"playPause"}
+				clickHandler={() => playPause()}
+			/>;
 		</div>
 	);
 };
 
-const mapStateToProps = state => {
-	return {
-		waveformsIds: state.waveforms.allIds,
-		// selectedWaveformId: state.waveformControls.selectedWaveformId
-	};
-};
+const mapDispatchToProps = dispatch => {
+	return bindActionCreators({playPause}, dispatch)
+}
 
-
-export default connect(mapStateToProps, null)(Selector);
-
+export default connect(null, mapDispatchToProps)(Selector);

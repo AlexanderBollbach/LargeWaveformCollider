@@ -1,68 +1,61 @@
 
-export function newBuffer(id, bufferPresetID, useSelected) {
-    console.log('newBuffer')
+export function newBuffer(waveformId, bufferPreset) {
     return {
         type: "waveform/NEW_BUFFER",
-        id,
-        bufferPresetID,
-        useSelected
+        waveformId,
+        bufferPreset
     };
 }
 
 
-export function setMode(id, mode) {
+export function setMode(waveformId, mode) {
     return {
         type: "waveform/SET_MODE",
-        id,
+        waveformId,
         mode
     }
 }
 
-export function playPause(useSelected) {
-    return {
-        type: "waveform/PLAY_PAUSE",
-        useSelected: useSelected
-    }
-}
 
-export function setVolume(id, volume) {
+
+export function setVolume(waveformId, volume) {
     return {
         type: "waveform/SET_VOLUME",
-        id,
+        waveformId,
         volume
     }
 }
 
-export function setZoom(id, zoom) {
+export function setZoom(waveformId, zoom) {
     return {
         type: "waveform/SET_ZOOM",      
-        id,
+        waveformId,
         zoom
     };
 }
 
-export function setFocus(id, focus) {
+export function setFocus(waveformId, focus) {
     return {
         type: 'waveform/SET_FOCUS',
-        id,
+        waveformId,
         focus,
     };
 }
 
-export function setOffset(id, offset) {
+export function setOffset(waveformId, offset) {
     return {
         type: 'waveform/SET_OFFSET',
-        id,
+        waveformId,
         offset
     };
 }
 
 
 
-export function toggleMoreStats(id) {
+export function toggleMoreStats(waveformId) {
     return {
         type: 'waveform/TOGGLE_MORE_STATS',
-        id,
+        waveformId,
     };
 }
 
