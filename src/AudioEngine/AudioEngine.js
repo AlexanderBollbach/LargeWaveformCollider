@@ -1,69 +1,65 @@
 import {store} from '_redux/Store'
+import {selectSamples} from '_redux/waveforms/Reducer'
 
 export default class AudioEngine {
 
 	constructor() {
 
 		this.volume = 0.5
-
 		this.outputConnected = false
-
 		var context = new AudioContext();
-
-		// Destination
 		this.destination = context.destination;
-
 		this.scriptNode = context.createScriptProcessor(2048, 1, 1);
 
-		this.sampleStores = []
+		this.waveforms = []
 
 		let sub = store.subscribe(() => {
+
+			let reduxState = store.getState()
+
+			reduxState.audioEngine.isPlaying ? this.play() : this.pause()
+
 		
-			this.sampleStores = []
-			
-			
+			this.waveforms = selectSamples(store.getState().waveforms)
+			const waveformsById = reduxState.waveforms 
 
-			const waveformsById = store.getState().waveforms 
-	
-
-	//TODO			
-
-
-			// waveformsIds.forEach(waveformId => {
-			// 	this.sampleStores.push({counter:0, buffer:processedSamples(waveformsById[waveformId]), volume: waveformsById[waveformId].volume})
-			// })	
-
-			// store.getState().audioEngine.isPlaying ? this.play() : this.pause()
+			// add counters ...
+			this.waveforms.forEach(waveform => {
+				waveform.counter = 0
+			})
 		})
 
 
 		this.scriptNode.onaudioprocess = (e) => {
+			
 			var outputBuffer = e.outputBuffer;
+		
 			for (var channel = 0; channel < outputBuffer.numberOfChannels; channel++) {
+		
 				var outputData = outputBuffer.getChannelData(channel);
+				
 				for (var sample = 0; sample < outputBuffer.length; sample++) {
 
 					var amp = 0
 
-					this.sampleStores.forEach(store => {
+					this.waveforms.forEach(waveform => {
 						
-						store.counter++
+						waveform.counter++
 
-						if (store.counter > store.buffer.length - 1) {
-							store.counter = 0
+						if (waveform.counter > waveform.samples.length - 1) {
+							waveform.counter = 0
 							return;
 						}
 
-						amp += store.buffer[store.counter] * store.volume;
+						amp += waveform.samples[waveform.counter] * waveform.volume;
 					})
 
-					amp /= this.sampleStores.length
+					amp /= this.waveforms.length
 					
 					outputData[sample] = amp * this.volume
 				}
 			}
 		};
-
 	}
 
 	play() {

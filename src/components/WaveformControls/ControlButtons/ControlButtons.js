@@ -5,13 +5,9 @@ import MomentaryButton from "Components/controls/buttons/MomentaryButton/Momenta
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-
-
-// actions
-
 import { playPause, newBuffer } from "_redux/waveforms/Actions";
 
-const Controls = ({ /*actions*/ playPause, /*state*/ newBuffer }) => {
+const Controls = ({ newBuffer, playPause }) => {
 	return (
 		<div className={Styles.Main}>
 				<MomentaryButton

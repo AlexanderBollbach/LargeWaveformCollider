@@ -1,24 +1,73 @@
-import React from 'react'
+import React from "react";
 import Slider from "Components/controls/sliders/Slider";
-import Styles from './Mode2.css'
+import Styles from "./Mode2.css";
 
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import { setLength, setSkipStride, setSkipPhase } from '_redux/waveforms/Actions'
+import {
+	updateLength,
+	updateSkipStride,
+	updateSkipPhase,
+	updateOffset
+} from "_redux/waveforms/Actions";
 
-const Mode2 = ({waveformId, setSkipStride,setSkipPhase, setLength}) => {
+import {
+	selectLength,
+	selectSkipStride,
+	selectSkipPhase,
+	selectOffset
+} from "_redux/waveforms/Reducer";
+
+const Mode2 = ({
+	waveformId,
+	updateSkipStride,
+	updateSkipPhase,
+	updateLength,
+	updateOffset,
+	skipStride,
+	skipPhase,
+	length,
+	offset
+}) => {
 	return (
-
 		<div className={Styles.Main}>
-			<Slider valueChanged={ value => setLength(waveformId, value) } />
-			<Slider valueChanged={ value => setSkipStride(waveformId, value) }/>
-			<Slider valueChanged={ value => setSkipPhase(waveformId, value) }/>
-			<Slider valueChanged={ value => console.log(value) }/>
+			<Slider
+				initialValue={length}
+				valueChanged={value => updateLength(waveformId, value)}
+			/>
+			<Slider
+				initialValue={skipStride}
+				valueChanged={value => updateSkipStride(waveformId, value)}
+			/>
+			<Slider
+				initialValue={skipPhase}
+				valueChanged={value => updateSkipPhase(waveformId, value)}
+			/>
+			<Slider
+				initialValue={offset}
+				valueChanged={value => updateOffset(waveformId, value)}
+			/>
 		</div>
-		)
-}
+	);
+};
 
-const mapDispatchToProps = dispatch => bindActionCreators({setLength, setSkipStride, setSkipPhase}, dispatch)
+const mapStateToProps = (state, ownProps) => ({
+	length: selectLength(state.waveforms[ownProps.waveformId]),
+	offset: selectOffset(state.waveforms[ownProps.waveformId]),
+	skipPhase: selectSkipPhase(state.waveforms[ownProps.waveformId]),
+	skipStride: selectSkipStride(state.waveforms[ownProps.waveformId])
+});
 
-export default connect(null, mapDispatchToProps)(Mode2)
+const mapDispatchToProps = dispatch =>
+	bindActionCreators(
+		{
+			updateLength,
+			updateSkipStride,
+			updateSkipPhase,
+			updateOffset
+		},
+		dispatch
+	);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Mode2);

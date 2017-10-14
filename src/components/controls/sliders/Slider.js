@@ -6,10 +6,12 @@ class Slider extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.value = 0.5;
+		this.value = props.initialValue;
 		this.renderCanvas = this.renderCanvas.bind(this);
 		this.canvas = null;
 		this.isDragging = false;
+
+
 	}
 
 	render() {

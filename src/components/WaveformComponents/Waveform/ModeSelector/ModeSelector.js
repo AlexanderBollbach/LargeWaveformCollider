@@ -3,25 +3,19 @@ import Styles from "./ModeSelector.css";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setMode } from "_redux/waveforms/Actions";
+import { updateMode } from "_redux/waveforms/Actions";
 
-const Mode = ({ name, handleClick, setMode, active }) => {
-	return (
-		<div className={active ? Styles.ModeSelected : Styles.Mode} onClick={() => handleClick(name)}>
-			<div className={Styles.ModeText}>{name}</div>;
-		</div>
-	);
-};
+import ModeTab from './ModeTab'
 
-const ModeSelector = ({ modes, waveformId, setMode, activeMode }) => {
+const ModeSelector = ({ modes, activeMode, waveformId, updateMode}) => {
 	return (
 		<div className={Styles.Main}>
 			{modes.map(mode => (
-				<Mode
+				<ModeTab
 					active={mode == activeMode}
 					key={mode}
 					name={mode}
-					handleClick={mode => setMode(waveformId, mode)}
+					handleClick={mode => updateMode(waveformId, mode)}
 				/>
 			))}
 		</div>
@@ -33,6 +27,6 @@ const mapStateToProps = (state, ownProps) => ({
 		activeMode: state.waveforms[ownProps.waveformId].activeMode,
 	})
 
-const mapDispatchToProps = dispatch => bindActionCreators({ setMode }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ updateMode }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModeSelector);

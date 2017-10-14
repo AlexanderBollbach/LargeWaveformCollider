@@ -4,9 +4,7 @@ import Styles from "./Waveform.css";
 import ModeSelector from "./ModeSelector/ModeSelector";
 import Modes from "./Modes/Modes";
 import { connect } from "react-redux";
-import { getSamplesWithId } from "_redux/waveforms/Reducer";
-// import Stats from "./Stats/Stats";
-// <Stats id={this.props.id} />
+import { selectSamplesWithId } from "_redux/waveforms/Reducer";
 
 const Waveform = ({ waveformId, activeMode, samples }) => {
 	return (
@@ -20,7 +18,7 @@ const Waveform = ({ waveformId, activeMode, samples }) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-	samples: getSamplesWithId(state.waveforms, ownProps.waveformId),
+	samples: selectSamplesWithId(state.waveforms, ownProps.waveformId),
 	activeMode: state.waveforms[ownProps.waveformId].activeMode
 });
 

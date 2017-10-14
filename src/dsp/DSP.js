@@ -1,35 +1,34 @@
 class DSP {
+	
 	constructor(dspRules) {
-		this.phase = 0;
-		this.length = dspRules.length;
-		this.waveType = dspRules.waveType;
-		this.skipStride = dspRules.skipStride;
-		this.skipPhase = dspRules.skipPhase;
+		this.dspRules = dspRules;
 	}
 
 	generate() {
+		
 		var samples;
 
-		switch (this.waveType) {
+		switch (this.dspRules.waveType) {
 			case "sin":
-				samples = this.genSin(this.length);
+				samples = this.genSin(this.dspRules.length);
 				break;
 			case "square":
-				samples = this.genSquare(this.length);
+				samples = this.genSquare(this.dspRules.length);
 				break;
 			case "tri":
-				samples = this.genTri(this.length);
+				samples = this.genTri(this.dspRules.length);
 				break;
 			case "saw":
-				samples = this.genSaw(this.length);
+				samples = this.genSaw(this.dspRules.length);
 				break;
 		}
 
 		var stride = 0;
 		var strideOn = false;
 
-		for (let i = this.skipPhase; i < samples.length; i++) {
-			if (stride > this.skipStride) {
+		for (let i = this.dspRules.skipPhase; i < samples.length; i++) {
+			
+			if (stride > this.dspRules.skipStride) {
 				strideOn = !strideOn;
 				stride = 0;
 			}
@@ -45,20 +44,49 @@ class DSP {
 			samples[i] = strideOn ? samples[i] : 0;
 		}
 
-		return samples;
+		// handle offset
+
+		// inefficient probably..
+		const offsetSamples = [];
+		var offsetCounter = 0;
+
+		const offsetFromMidpoint = 1 - this.dspRules.offset - 0.5
+
+		const startingSamplesFromOffset = Math.floor(
+			offsetFromMidpoint * samples.length
+		);
+
+		for (
+			let i = startingSamplesFromOffset;
+			i < startingSamplesFromOffset + samples.length;
+			i++
+		) {
+			if (i < 0) {
+				offsetSamples[offsetCounter] = 0;
+			} else if (i > samples.length) {
+				offsetSamples[offsetCounter] = 0;
+			} else {
+				offsetSamples[offsetCounter] = samples[i];
+			}
+
+			offsetCounter++;
+		}
+
+		return offsetSamples;
 	}
 
 	genSin(length) {
+		var phase = 0;
 		var newBuffer = [];
 		const phaseIncrement = 2 * Math.PI * 0.01;
 
 		for (var i = 0; i < length; i++) {
-			this.phase += phaseIncrement;
+			phase += phaseIncrement;
 
-			newBuffer[i] = Math.sin(this.phase);
+			newBuffer[i] = Math.sin(phase);
 
-			if (this.phase >= 2 * Math.PI) {
-				this.phase = this.phase - 2 * Math.PI;
+			if (phase >= 2 * Math.PI) {
+				phase = phase - 2 * Math.PI;
 			}
 		}
 		return newBuffer;

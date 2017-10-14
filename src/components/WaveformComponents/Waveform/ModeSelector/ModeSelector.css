@@ -2,26 +2,3 @@
 	display: flex;
 	align-items: stretch;
 }
-
-.Mode {
-	width: 100%;
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	
-	border-width: 1px;
-	border-color: rgba(230,220,200,0.4);
-	border-style: solid;
-	
-	
-}
-
-.ModeSelected {
-	composes: Mode;
-	background-color: red;
-}
-
-.ModeText {
-	color: white;	
-}

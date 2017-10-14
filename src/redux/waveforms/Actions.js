@@ -1,30 +1,30 @@
 
-export const updateDSPRulesWaveType = (waveformId, waveType) => ({
-    type: "waveforms/UPDATE_DSPRULES_WAVE_TYPE",
+export const updateWaveType = (waveformId, waveType) => ({
+    type: "waveforms/UPDATE_WAVE_TYPE",
     waveformId,
     waveType
 });
 
-export function setMode(waveformId, mode) {
+export function updateMode(waveformId, mode) {
     return {
-        type: "waveforms/SET_MODE",
+        type: "waveforms/UPDATE_MODE",
         waveformId,
         mode
     };
 }
 
-export function setVolume(waveformId, volume) {
+export function updateVolume(waveformId, volume) {
     return {
-        type: "waveforms/SET_VOLUME",
+        type: "waveforms/UPDATE_VOLUME",
         waveformId,
         volume
     };
 }
 
 
-export function setLength(waveformId, length) {
+export function updateLength(waveformId, length) {
     return {
-        type: "waveforms/SET_LENGTH",
+        type: "waveforms/UPDATE_LENGTH",
         waveformId,
         length
     };
@@ -32,9 +32,9 @@ export function setLength(waveformId, length) {
 
 
 
-export function setSkipStride(waveformId, skipStride) {
+export function updateSkipStride(waveformId, skipStride) {
     return {
-        type: "waveforms/SET_SKIPSTRIDE",
+        type: "waveforms/UPDATE_SKIPSTRIDE",
         waveformId,
         skipStride
     };
@@ -43,11 +43,20 @@ export function setSkipStride(waveformId, skipStride) {
 
 
 
-export function setSkipPhase(waveformId, skipPhase) {
+export function updateSkipPhase(waveformId, skipPhase) {
     return {
-        type: "waveforms/SET_SKIPPHASE",
+        type: "waveforms/UPDATE_SKIPPHASE",
         waveformId,
         skipPhase
+    };
+}
+
+
+export function updateOffset(waveformId, offset) {
+    return {
+        type: "waveforms/UPDATE_OFFSET",
+        waveformId,
+        offset
     };
 }
 
